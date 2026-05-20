@@ -2,6 +2,7 @@
 
 namespace App\Services;
 
+use App\Models\User;
 use App\Repositories\UserRepository;
 use Illuminate\Support\Collection;
 
@@ -11,8 +12,8 @@ class UserService
     {
     }
 
-    public function list(): Collection
+    public function list(User $user): Collection
     {
-        return $this->userRepository->all();
+        return $this->userRepository->all($user);
     }
 }
