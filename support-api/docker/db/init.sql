@@ -1,0 +1,1 @@
+CREATE DATABASE supportdb_test;

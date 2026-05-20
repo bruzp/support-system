@@ -1,0 +1,99 @@
+services:
+  # Laravel API
+  app:
+    build:
+      context: ./support-api
+      dockerfile: docker/php/Dockerfile
+      args:
+        UID: ${UID:-1000}
+        GID: ${GID:-1000}
+    container_name: support_app
+    working_dir: /var/www/html
+    volumes:
+      - ./support-api:/var/www/html
+    ports:
+      - "8000:8000"
+    depends_on:
+      - postgres
+      - ollama
+    environment:
+      OLLAMA_HOST: http://ollama:11434
+    command: php artisan serve --host=0.0.0.0 --port=8000
+    networks:
+      - support_network
+
+  # Next.js Frontend
+  frontend:
+    build:
+      context: ./support-frontend
+      dockerfile: docker/nextjs/Dockerfile
+    container_name: support_frontend
+    volumes:
+      - ./support-frontend:/app
+      - /app/node_modules
+      - /app/.next
+    ports:
+      - "3000:3000"
+    environment:
+      NEXT_PUBLIC_API_URL: http://localhost:8000/api
+    depends_on:
+      - app
+    networks:
+      - support_network
+
+  # PostgreSQL
+  postgres:
+    image: postgres:17
+    container_name: support_postgres
+    restart: unless-stopped
+    environment:
+      POSTGRES_DB: supportdb
+      POSTGRES_USER: supportuser
+      POSTGRES_PASSWORD: supportpassword
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+      - ./support-api/docker/db/init.sql:/docker-entrypoint-initdb.d/init.sql
+    networks:
+      - support_network
+
+  # Ollama
+  ollama:
+    image: ollama/ollama:latest
+    container_name: support_ollama
+    restart: unless-stopped
+    ports:
+      - "11434:11434"
+    volumes:
+      - ollama_data:/root/.ollama
+    networks:
+      - support_network
+
+  ollama-pull:
+    image: ollama/ollama:latest
+    container_name: support_ollama_pull
+    restart: "no"
+    depends_on:
+      - ollama
+    volumes:
+      - ollama_data:/root/.ollama
+    entrypoint: >
+      /bin/sh -c "
+        echo 'Waiting for Ollama to be ready...';
+        sleep 5;
+        ollama pull qwen2.5:0.5b;
+        echo 'Model ready.'
+      "
+    environment:
+      OLLAMA_HOST: http://ollama:11434
+    networks:
+      - support_network
+
+volumes:
+  postgres_data:
+  ollama_data:
+
+networks:
+  support_network:
+    driver: bridge
