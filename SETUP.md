@@ -26,13 +26,13 @@ echo "{}" > ~/.docker/config.json
 
 ---
 
-## 3. Set up the API environment file (Optional)
+## 3. Set up the API environment file
 
 ```bash
 cp support-api/.env.example support-api/.env
 ```
 
-Open `support-api/.env` and update the database values to match Docker:
+Open `support-api/.env` and update the database values to match Docker: (Optional)
 
 ```env
 DB_CONNECTION=pgsql
