@@ -10,7 +10,7 @@
 ## 1. Clone the repository
 
 ```bash
-git clone <your-repo-url> support-system
+git clone https://github.com/bruzp/support-system.git support-system
 cd support-system
 ```
 
