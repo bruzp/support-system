@@ -4,7 +4,7 @@ import { Button, Group, Select, Stack, Textarea, TextInput } from '@mantine/core
 import { UseFormReturnType } from '@mantine/form';
 import { useUsers } from '@/hooks/useUsers';
 
-interface IssueFormProps<T extends Record<string, any>> {
+type IssueFormProps<T extends Record<string, any>> = {
   form: UseFormReturnType<T>;
   onSubmit: (values: T) => void;
   isPending: boolean;

@@ -8,7 +8,7 @@ import { CATEGORY_OPTIONS, PRIORITY_OPTIONS, STATUS_OPTIONS } from './IssueForm'
 
 type IssueFormValues = IssueStorePayload | IssueUpdatePayload;
 
-interface IssueFormProps {
+type IssueFormProps = {
   form: UseFormReturnType<any>;
   onSubmit: (values: IssueFormValues) => void;
   isPending: boolean;

@@ -14,14 +14,14 @@ export type IssueCategory =
   | 'billing'
   | 'general';
 
-export interface Summary {
+export type Summary = {
   id: number;
   issue_id: number;
   summary: string;
   suggested_action: string;
 }
 
-export interface Issue {
+export type Issue = {
   id: number;
   user_id: number;
   title: string;
@@ -40,14 +40,14 @@ export interface Issue {
   user?: User | null;
 }
 
-export interface IssueFilters {
+export type IssueFilters = {
   page?: number;
   status?: IssueStatus | null;
   priority?: IssuePriority | null;
   category?: IssueCategory | null;
 }
 
-export interface IssueStorePayload {
+export type IssueStorePayload = {
   user_id: number;
   title: string;
   description: string;
@@ -56,7 +56,7 @@ export interface IssueStorePayload {
   status: IssueStatus;
 }
 
-export interface IssueUpdatePayload {
+export type IssueUpdatePayload = {
   title: string;
   description: string;
   priority: IssuePriority;
@@ -71,14 +71,14 @@ export interface IssueUpdatePayload {
   suggested_action?: string | null;
 }
 
-interface PaginationLink {
+export type PaginationLink = {
   url: string | null;
   label: string;
   active: boolean;
   page?: number | null;
 }
 
-interface PaginationMeta {
+type PaginationMeta = {
   current_page: number;
   from: number | null;
   last_page: number;
@@ -89,14 +89,14 @@ interface PaginationMeta {
   links: PaginationLink[];
 }
 
-interface PaginationLinks {
+type PaginationLinks = {
   first: string;
   last: string;
   prev: string | null;
   next: string | null;
 }
 
-export interface PaginatedResponse<T> {
+export type PaginatedResponse<T> = {
   data: T[];
   links: PaginationLinks;
   meta: PaginationMeta;

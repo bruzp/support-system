@@ -22,12 +22,12 @@ import { useRouter } from 'next/navigation';
 import { useState } from 'react';
 import {
   Issue,
-  IssueFilters,
   IssuePriority,
   IssueStatus,
   useDeleteIssue,
   useIssues,
 } from '@/hooks/useIssues';
+import { useIssueFiltersStore } from '@/store/useIssueFiltersStore';
 
 const STATUS_COLOR: Record<IssueStatus, string> = {
   open: 'blue',
@@ -71,9 +71,7 @@ const CATEGORY_OPTIONS = [
 export function TableSort() {
   const router = useRouter();
 
-  const [filters, setFilters] = useState<IssueFilters>({
-    page: 1,
-  });
+  const { filters, setFilter } = useIssueFiltersStore()
 
   const { data, isLoading, isError } = useIssues(filters);
 
@@ -91,9 +89,7 @@ export function TableSort() {
   };
 
   const handleDeleteConfirm = () => {
-    if (!targetIssue) {
-      return;
-    }
+    if (!targetIssue) {return;}
 
     deleteIssue(targetIssue.id, {
       onSuccess: () => {
@@ -101,27 +97,17 @@ export function TableSort() {
           message: 'Issue deleted.',
           color: 'green',
         });
-
         close();
       },
-
       onError: () => {
         notifications.show({
           message: 'Failed to delete issue.',
           color: 'red',
         });
-
         close();
       },
     });
   };
-
-  const setFilter = (key: keyof IssueFilters) => (value: string | null) =>
-    setFilters((prev) => ({
-      ...prev,
-      page: 1,
-      [key]: value,
-    }));
 
   const rows = issues.map((issue) => (
     <Table.Tr key={issue.id}>
@@ -195,7 +181,7 @@ export function TableSort() {
             placeholder="All statuses"
             data={STATUS_OPTIONS}
             value={filters.status ?? null}
-            onChange={setFilter('status')}
+            onChange={(value) => setFilter('status', value)}
             clearable
             style={{ flex: 1 }}
           />
@@ -204,7 +190,7 @@ export function TableSort() {
             placeholder="All priorities"
             data={PRIORITY_OPTIONS}
             value={filters.priority ?? null}
-            onChange={setFilter('priority')}
+            onChange={(value) => setFilter('priority', value)}
             clearable
             style={{ flex: 1 }}
           />
@@ -213,7 +199,7 @@ export function TableSort() {
             placeholder="All categories"
             data={CATEGORY_OPTIONS}
             value={filters.category ?? null}
-            onChange={setFilter('category')}
+            onChange={(value) => setFilter('category', value)}
             clearable
             style={{ flex: 1 }}
           />
@@ -244,25 +230,12 @@ export function TableSort() {
               <Table.Thead>
                 <Table.Tr>
                   <Table.Th style={{ width: 60 }}>ID</Table.Th>
-
                   <Table.Th>Title</Table.Th>
-
                   <Table.Th style={{ width: 110 }}>Priority</Table.Th>
-
                   <Table.Th style={{ width: 130 }}>Status</Table.Th>
-
                   <Table.Th style={{ width: 140 }}>Category</Table.Th>
-
                   <Table.Th style={{ width: 140 }}>Created By</Table.Th>
-
-                  <Table.Th
-                    style={{
-                      width: 100,
-                      textAlign: 'center',
-                    }}
-                  >
-                    Actions
-                  </Table.Th>
+                  <Table.Th style={{ width: 100, textAlign: 'center' }}>Actions</Table.Th>
                 </Table.Tr>
               </Table.Thead>
 
@@ -285,12 +258,7 @@ export function TableSort() {
               <Pagination
                 total={meta?.last_page ?? 1}
                 value={meta?.current_page ?? 1}
-                onChange={(page) =>
-                  setFilters((prev) => ({
-                    ...prev,
-                    page,
-                  }))
-                }
+                onChange={(page) => setFilter('page', page)}
               />
             </Group>
           </>
