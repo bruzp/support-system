@@ -23,13 +23,13 @@ services:
       - support_network
 
   # Next.js Frontend
-  frontend:
+  next-frontend:
     build:
-      context: ./support-frontend
+      context: ./support-next
       dockerfile: docker/nextjs/Dockerfile
-    container_name: support_frontend
+    container_name: support_next
     volumes:
-      - ./support-frontend:/app
+      - ./support-next:/app
       - /app/node_modules
       - /app/.next
     ports:
