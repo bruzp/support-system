@@ -50,7 +50,7 @@ OLLAMA_HOST=http://ollama:11434
 ## 4. Set up the Frontend environment file
 
 ```bash
-touch support-frontend/.env
+touch support-next/.env
 ```
 
 Make sure this is set:
