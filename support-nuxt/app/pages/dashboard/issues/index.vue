@@ -49,7 +49,8 @@ const PRIORITY_COLOR: Record<string, string> = {
   critical: 'error'
 }
 
-const filters = ref<IssueFilters>({ page: 1 })
+const filtersStore = useIssueFiltersStore()
+const { filters } = storeToRefs(filtersStore)
 const { data, refresh, status } = useIssues(filters)
 
 const issues = computed(() => data.value?.data ?? [])
@@ -147,7 +148,7 @@ const columns = [
         value-key="value"
         label-key="label"
         class="flex-1"
-        @update:model-value="filters.page = 1"
+        @update:model-value="(val) => filtersStore.setFilter('status', val)"
       />
       <USelect
         v-model="filters.priority"
@@ -155,7 +156,7 @@ const columns = [
         value-key="value"
         label-key="label"
         class="flex-1"
-        @update:model-value="filters.page = 1"
+        @update:model-value="(val) => filtersStore.setFilter('priority', val)"
       />
       <USelect
         v-model="filters.category"
@@ -163,7 +164,7 @@ const columns = [
         value-key="value"
         label-key="label"
         class="flex-1"
-        @update:model-value="filters.page = 1"
+        @update:model-value="(val) => filtersStore.setFilter('category', val)"
       />
       <UButton
         icon="i-lucide-plus"
