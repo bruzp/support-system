@@ -176,7 +176,7 @@ export function TableSort() {
       </Modal>
 
       <ScrollArea>
-        <Group mb="md" align="flex-end">
+        <Group mb="md" align="flex-end" maw={700}>
           <Select
             placeholder="All statuses"
             data={STATUS_OPTIONS}

@@ -1,7 +1,7 @@
 'use client';
 
 import { format } from '@formkit/tempo';
-import { Loader, Group, Paper, Title, Text } from '@mantine/core';
+import { Loader, Group, Paper, Title, Text, Box, Button } from '@mantine/core';
 import { useForm } from '@mantine/form';
 import { notifications } from '@mantine/notifications';
 import type { AxiosError } from 'axios';
@@ -9,6 +9,7 @@ import { useRouter, useParams } from 'next/navigation';
 import { useEffect } from 'react';
 import { IssueUpdatePayload, useIssue, useUpdateIssue } from '@/hooks/useIssues';
 import { UpdateIssueForm } from '../../_components/UpdateIssueForm';
+import { IconArrowLeft } from '@tabler/icons-react';
 
 export default function EditIssuePage() {
   const router = useRouter();
@@ -117,7 +118,16 @@ export default function EditIssuePage() {
   }
 
   return (
-    <>
+    <Box maw={700} mx="auto" mt="xl">
+      <Button
+        variant="subtle"
+        leftSection={<IconArrowLeft size={16} />}
+        mb="md"
+        onClick={() => router.push('/dashboard/issues')}
+      >
+        Back to Issues
+      </Button>
+
       <Title order={2} mb="lg">
         Edit Issue #{issue.id}
       </Title>
@@ -129,6 +139,6 @@ export default function EditIssuePage() {
           submitLabel="Save Changes"
         />
       </Paper>
-    </>
+    </Box>
   );
 }

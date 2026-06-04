@@ -1,12 +1,13 @@
 'use client';
 
-import { Paper, Title } from '@mantine/core';
+import { Paper, Title, Box, Button } from '@mantine/core';
 import { useForm } from '@mantine/form';
 import { notifications } from '@mantine/notifications';
 import type { AxiosError } from 'axios';
 import { useRouter } from 'next/navigation';
 import { IssueStorePayload, useCreateIssue } from '@/hooks/useIssues';
 import { IssueForm } from '../_components/IssueForm';
+import { IconArrowLeft } from '@tabler/icons-react';
 
 export default function AddIssuePage() {
   const router = useRouter();
@@ -45,7 +46,16 @@ export default function AddIssuePage() {
   };
 
   return (
-    <>
+    <Box maw={700} mx="auto" mt="xl">
+      <Button
+        variant="subtle"
+        leftSection={<IconArrowLeft size={16} />}
+        mb="md"
+        onClick={() => router.push('/dashboard/issues')}
+      >
+        Back to Issues
+      </Button>
+
       <Title order={2} mb="lg">
         Add Issue
       </Title>
@@ -58,6 +68,6 @@ export default function AddIssuePage() {
           showUserId
         />
       </Paper>
-    </>
+    </Box>
   );
 }
