@@ -41,6 +41,25 @@ services:
     networks:
       - support_network
 
+  # Nuxt Frontend
+  nuxt-frontend:
+    build:
+      context: ./support-nuxt
+      dockerfile: docker/nuxt/Dockerfile
+    container_name: support_nuxt
+    volumes:
+      - ./support-nuxt:/app
+      - /app/node_modules
+      - /app/.nuxt
+    ports:
+      - "3001:3001"
+    environment:
+      NUXT_PUBLIC_API_BASE: http://localhost:8000/api
+    depends_on:
+      - app
+    networks:
+      - support_network
+
   # PostgreSQL
   postgres:
     image: postgres:17
