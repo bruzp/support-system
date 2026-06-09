@@ -9,7 +9,8 @@ A full-stack issue ticketing system built with Laravel and Next.js. Designed for
 | Layer    | Technology                              |
 |----------|-----------------------------------------|
 | API      | Laravel 13, Sanctum, PostgreSQL         |
-| Frontend | Next.js 16, Mantine UI, TanStack Query  |
+| Frontend (Next.js) | Next.js 16, Mantine UI, TanStack Query, Zustand  |
+| Frontend (Nuxt.js) | Nuxt 4, Nuxt UI v4, Pinia  |
 | AI       | Ollama (qwen2.5:0.5b) for issue summaries |
 | Infra    | Docker, Docker Compose                  |
 
@@ -42,8 +43,18 @@ The frontend consumes the Laravel API and is built around a few focused choices:
 - **TanStack Query** manages all server state - handles caching, background refetching, and loading/error states so components stay clean
 - **Axios** with request/response interceptors handles token injection and global 401 handling in one place, rather than in every individual hook
 - **Reusable hooks** (`useIssues`, `useAuth`, `useUsers`) abstract all API calls so pages only deal with data, not HTTP logic
+- **Zustand** manages shared client-side filter state
 - **Mantine UI** provides the component library - forms, tables, modals, and notifications
 - **Next.js Middleware** protects dashboard routes server-side before any page renders, and redirects logged-in users away from the login page
+
+### Frontend - Nuxt 4
+
+An alternative frontend built with Nuxt 4 that implements the same feature set, demonstrating how the same Laravel API can be consumed across different frontend frameworks.
+
+- **$fetch** for SSR-aware HTTP requests, with Nuxt UI v4 as the component library
+- **useAsyncData** manages server state and data fetching
+- **Global route middleware** handles auth protection and redirects across all pages
+- **Pinia** manages shared client-side filter state
 
 ### Database - PostgreSQL
 
