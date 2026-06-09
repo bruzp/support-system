@@ -76,8 +76,6 @@ Three principles guided every decision in this project:
 
 ## What I'd Improve Next
 
-These are the things I'd prioritize given more time:
-
 1. **API testing with PEST** - unit tests for services and feature tests for all API endpoints
 2. **Laravel Queues** - offload API-heavy processing (like AI summarization) to background jobs so requests stay fast
 3. **Scheduled escalation** - run escalation checks on a queue schedule rather than inline
